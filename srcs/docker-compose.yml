@@ -10,6 +10,7 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "mariadb_healthcheck.sh"]
       start_period: 15s
+    restart: on-failure
   nginx:
     container_name: nginx
     image: nginx:inception
@@ -25,6 +26,7 @@ services:
         condition: service_started
       mariadb:
         condition: service_healthy
+    restart: on-failure
   wordpress:
     container_name: wordpress
     image: wordpress:inception
@@ -36,6 +38,7 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
+    restart: on-failure
 
 networks:
   inception:
