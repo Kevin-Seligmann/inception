@@ -2,7 +2,7 @@ FROM alpine:3.19.3
 
 RUN apk update --no-cache && apk upgrade --no-cache
 
-RUN apk add curl php php-fpm php-phar php-openssl php-mysqli php-mbstring --no-cache
+RUN apk add curl php php-fpm php-phar php-openssl php-mysqli php-mbstring php-tokenizer --no-cache
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
