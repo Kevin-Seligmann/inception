@@ -43,6 +43,18 @@ services:
     env_file:
       - .env
     restart: on-failure
+  redis:
+    container_name: redis
+    image: redis:inception
+    build: requirements/bonus/redis
+    volumes:
+      - /home/kseligma/data/redis:/var/lib/redis
+      - /home/kseligma/data/wordpress:/var/www/wordpress
+    networks:
+      - inception
+    env_file:
+      - .env
+    restart: on-failure
 
 networks:
   inception:

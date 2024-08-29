@@ -3,7 +3,7 @@
 # Wordpress database administrator credentials
 WP_DATABASE_NAME=wp_database_name
 WP_DATABASE_ADMIN_USERNAME=wp_database_username
-WP_DATABASE_ADMIN_PASSWORD=wwp_database_password
+WP_DATABASE_ADMIN_PASSWORD=wp_database_password
 
 # Wordpress non privileged user credentials
 WP_USER_USERNAME=wp_user_username
@@ -20,4 +20,8 @@ WP_URL=localhost
 WP_TITLE=wp_title
 
 # Mariadb ROOT password
-MARIADB_ROOT_PASSWORD=mariadbpass
+MARIADB_ROOT_PASSWORD=mariadb_db_pass
+
+# Redis DB password
+REDIS_DATABASE_USERNAME=redis_db_username
+REDIS_DATABASE_PASSWORD=redis_db_password
