@@ -1,0 +1,40 @@
+services:
+  mariadb:
+    image: mariadb:mariadb
+    build: requirements/mariadb
+    container_name: mariadb
+    env_file:
+      - .env
+    volumes:
+      - /home/kseligma/data/db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb_healthcheck.sh"]
+      interval: 2s
+      retries: 3
+      start_period: 15s
+      start_interval: 1s
+      timeout: 30s
+  nginx:
+    image: nginx:nginx
+    build: requirements/nginx
+    container_name: nginx
+    ports:
+      - 443:443
+    volumes:
+      - /home/kseligma/data/wordpress:/var/www/wordpress
+    depends_on:
+      wordpress:
+        condition: service_started
+      mariadb:
+        condition: service_healthy
+  wordpress:
+    image: wordpress:wordpress
+    build: requirements/wordpress
+    container_name: wordpress
+    env_file:
+      - .env
+    volumes:
+      - /home/kseligma/data/wordpress:/var/www/wordpress
+    depends_on:
+      mariadb:
+        condition: service_healthy

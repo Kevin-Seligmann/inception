@@ -1,0 +1,12 @@
+[ req ]
+default_keyfile		=	/etc/ssl/key.pem
+prompt			=	no
+distinguished_name	=	req_distinguished_name
+
+[ req_distinguished_name ]
+C			=	ES
+ST			=	Barcelona
+L			=	Barcelona
+O			=	inception
+CN			=	inception
+OU			=	inception
