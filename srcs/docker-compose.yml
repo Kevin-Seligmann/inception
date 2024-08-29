@@ -7,15 +7,9 @@ services:
       - /home/kseligma/data/db:/var/lib/mysql
     networks:
       - inception
-    env_file:
-      - .env
     healthcheck:
       test: ["CMD-SHELL", "mariadb_healthcheck.sh"]
-      interval: 2s
-      retries: 3
       start_period: 15s
-      start_interval: 1s
-      timeout: 30s
   nginx:
     container_name: nginx
     image: nginx:inception
@@ -39,8 +33,6 @@ services:
       - /home/kseligma/data/wordpress:/var/www/wordpress
     networks:
       - inception
-    env_file:
-      - .env
     depends_on:
       mariadb:
         condition: service_healthy
