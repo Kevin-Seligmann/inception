@@ -14,6 +14,8 @@ services:
       start_period: 15s
       start_interval: 1s
       timeout: 30s
+    networks:
+      - inception
   nginx:
     image: nginx:nginx
     build: requirements/nginx
@@ -27,6 +29,8 @@ services:
         condition: service_started
       mariadb:
         condition: service_healthy
+    networks:
+      - inception
   wordpress:
     image: wordpress:wordpress
     build: requirements/wordpress
@@ -38,3 +42,8 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
+    networks:
+      - inception
+
+networks:
+  inception:
