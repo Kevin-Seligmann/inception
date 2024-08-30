@@ -26,4 +26,4 @@ kill -s TERM $REDIS_PID
 
 wait $REDIS_PID
 
-exec redis-server /etc/redis.conf --protected-mode no
+exec redis-server /etc/redis.conf
