@@ -69,8 +69,20 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
-    env_file:
-      - .env
+    restart: on-failure
+  vsftpd:
+    container_name: vsftpd
+    image: vsftpd:inception
+    build: requirements/bonus/vsftpd
+    volumes:
+      - /home/kseligma/data/wordpress:/var/www/wordpress
+    networks:
+      - inception
+    ports:
+      - 20:20
+    depends_on:
+      wordpress:
+        condition: service_started
     restart: on-failure
 
 networks:
