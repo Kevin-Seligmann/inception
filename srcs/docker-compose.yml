@@ -50,12 +50,25 @@ services:
     image: redis:inception
     build: requirements/bonus/redis
     volumes:
-      - /home/kseligma/data/redis:/var/lib/redis
       - /home/kseligma/data/wordpress:/var/www/wordpress
     networks:
       - inception
     healthcheck:
       test: ["CMD-SHELL", "redis_healthcheck.sh"]
+    env_file:
+      - .env
+    restart: on-failure
+  adminer:
+    container_name: adminer
+    image: adminer:inception
+    build: requirements/bonus/adminer
+    networks:
+      - inception
+    ports:
+      - 8080:8080
+    depends_on:
+      mariadb:
+        condition: service_healthy
     env_file:
       - .env
     restart: on-failure
