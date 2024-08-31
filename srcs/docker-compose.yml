@@ -40,6 +40,8 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     env_file:
       - .env
     restart: on-failure
@@ -52,6 +54,8 @@ services:
       - /home/kseligma/data/wordpress:/var/www/wordpress
     networks:
       - inception
+    healthcheck:
+      test: ["CMD-SHELL", "redis_healthcheck.sh"]
     env_file:
       - .env
     restart: on-failure
