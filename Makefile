@@ -2,11 +2,13 @@ PROJECT_DIR = srcs
 PROJECT_DATA_ROOT = /home/kseligma/data/
 WORDPRESS_DIR = wordpress
 MARIADB_DIR = mariadb
+DATA_DIR = $(PROJECT_DATA_ROOT)$(WORDPRESS_DIR) $(PROJECT_DATA_ROOT)$(MARIADB_DIR)
 
 all: data_dir up
 
 data_dir:
-	mkdir -p $(PROJECT_DATA_ROOT)$(WORDPRESS_DIR) $(PROJECT_DATA_ROOT)$(MARIADB_DIR)
+	mkdir -p $(DATA_DIR)
+	chown 1001:1001 $(DATA_DIR)
 
 start:
 	docker compose --project-directory $(PROJECT_DIR) start
