@@ -19,10 +19,12 @@ services:
     build: requirements/nginx
     volumes:
       - /home/kseligma/data/wordpress:/var/www/wordpress
+      - /home/kseligma/data/html:/var/www/html
     networks:
       - inception
     ports:
       - 443:443
+      - 80:80
     depends_on:
       wordpress:
         condition: service_started
@@ -86,9 +88,11 @@ services:
       - 40000-40020:40000-40020
     env_file:
       - .env
-    depends_on:
-      wordpress:
-        condition: service_started
+    restart: on-failure
+  mailhog:
+    container_name: mailhog
+    image: mailhog:inception
+    build: requirements/bonus/mailhog
     restart: on-failure
 
 networks:
