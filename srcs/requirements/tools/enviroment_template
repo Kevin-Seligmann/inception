@@ -25,3 +25,6 @@ MARIADB_ROOT_PASSWORD=mariadb_db_pass
 # Redis DB password
 REDIS_DATABASE_USERNAME=redis_db_username
 REDIS_DATABASE_PASSWORD=redis_db_password
+
+# Vsftpd user password
+VSFTPD_USER_PASSWORD=vsftpd_username_password

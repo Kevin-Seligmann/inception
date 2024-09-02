@@ -73,7 +73,10 @@ services:
   vsftpd:
     container_name: vsftpd
     image: vsftpd:inception
-    build: requirements/bonus/vsftpd
+    build:
+      context: requirements/bonus/vsftpd
+      args:
+        PASSWORD: ${VSFTPD_USER_PASSWORD}
     volumes:
       - /home/kseligma/data/wordpress:/var/www/wordpress
     networks:
@@ -81,6 +84,8 @@ services:
     ports:
       - 21:21
       - 40000-40020:40000-40020
+    env_file:
+      - .env
     depends_on:
       wordpress:
         condition: service_started
