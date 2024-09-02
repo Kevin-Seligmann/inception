@@ -79,7 +79,8 @@ services:
     networks:
       - inception
     ports:
-      - 20:20
+      - 21:21
+      - 40000-40020:40000-40020
     depends_on:
       wordpress:
         condition: service_started
