@@ -15,15 +15,18 @@ $WP config set WP_REDIS_HOST redis $CLI_FLAGS
 $WP config set WP_REDIS_PASSWORD "['${REDIS_DATABASE_USERNAME}', '${REDIS_DATABASE_PASSWORD}']" --raw $CLI_FLAGS
 
 # Wp install
-$WP core install $CLI_FLAGS --title=${WP_TITLE} --url=${WP_URL} --admin_user=${WP_ADMIN_USERNAME} --admin_password=${WP_ADMIN_PASSWORD} --admin_email=${WP_ADMIN_EMAIL} --skip-email
+$WP core install $CLI_FLAGS --title=${WP_TITLE} --url=${WP_URL} --admin_user=${WP_ADMIN_USERNAME} --admin_password=${WP_ADMIN_PASSWORD} --admin_email=${WP_ADMIN_EMAIL}
 
 # Wp user
 $WP user create $CLI_FLAGS ${WP_USER_USERNAME} ${WP_USER_EMAIL} --user_pass=${WP_USER_PASSWORD}
 
-# Redis init
+# Redis install
 $WP plugin install redis-cache $CLI_FLAGS
 $WP plugin activate redis-cache $CLI_FLAGS
 $WP redis enable $CLI_FLAGS
-$WP redis status $CLI_FLAGS
+
+# STMP Mailer install
+$WP plugin install smtp-mailer $CLI_FLAGS
+$WP plugin activate smtp-mailer $CLI_FLAGS
 
 exec php-fpm82 -F

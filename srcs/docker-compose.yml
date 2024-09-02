@@ -22,6 +22,13 @@ services:
       - /home/kseligma/data/html:/var/www/html
     networks:
       - inception
+    depends_on:
+      wordpress:
+        condition: service_started
+      adminer:
+        condition: service_started
+      mailhog:
+        condition: service_started
     ports:
       - 443:443
       - 80:80
@@ -39,6 +46,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      mailhog:
+        condition: service_started
     env_file:
       - .env
     restart: on-failure
