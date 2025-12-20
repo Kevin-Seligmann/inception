@@ -1,0 +1,17 @@
+# Instructions to install and evaluate the project inside campus environment
+
+These instructions are a serie of recomendations that worked at the time of writing this document.
+
+The campus environment consists of a host machine without root access or docker, it has VirtualBox installed.
+
+The campus /home/username folder has a limited space of 5GB, the /sgoinfre/username folder can be created with an aditional 25GB of space.
+
+Install Debian trixie netinst iso. https://www.debian.org/download.html. When creating the virtual machine on VBOX, make sure to configure the VM disk inside the sgoingfre folder (.vdi file/s).
+
+When booting the installer, make sure to choose a manual installation. Most options are irrelevant or intuitive, but make sure to have all options unchecked when prompted for aditional programs except the essentials and Xfce. This desktop environment is ligther than Gnome and it's important to make sure the VM runs well on campus.
+
+For this set of instructions, a shared folder will be created. Intra doesn't allow users to use multiple ssh keys, so the repository will be cloned on the host and managed from the guest.
+
+To set up a shared folder, it's necessary to install VBox Guest Additions. VBox provides a menu option to insert a .iso into the VM that can be mounted and used to install the utility (At this point, should install sudo). A folder inside the host on /sgoinfre/username and the guest on /home/username with the same name can be used.
+
+Next it's necessary to install docker and practical to add the user to a 'docker' group so it doesn't need sudo to use docker.
