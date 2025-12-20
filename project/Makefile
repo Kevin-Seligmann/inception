@@ -9,7 +9,7 @@ all: data_dir up
 
 data_dir:
 	mkdir -p $(DATA_DIR)
-	chown 1001:1001 $(DATA_DIR)
+	sudo chown 1001:1001 $(DATA_DIR)
 
 start:
 	docker compose --project-directory $(PROJECT_DIR) start
@@ -30,7 +30,7 @@ rm_image:
 	-docker image rm $$(sudo docker image ls -a -q)
 
 rm_data:
-	rm -rf $(PROJECT_DATA_ROOT)*
+	sudo rm -rf $(PROJECT_DATA_ROOT)*
 
 fclean: rm_container rm_image rm_data
 	docker system prune -f -a
