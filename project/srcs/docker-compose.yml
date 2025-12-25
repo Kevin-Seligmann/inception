@@ -1,4 +1,5 @@
 services:
+
   mariadb:
     container_name: mariadb
     image: mariadb:inception
@@ -13,6 +14,7 @@ services:
     env_file:
       - .env
     restart: on-failure
+
   nginx:
     container_name: nginx
     image: nginx:inception
@@ -33,6 +35,7 @@ services:
       - 443:443
       - 80:80
     restart: on-failure
+
   wordpress:
     container_name: wordpress
     image: wordpress:inception
@@ -51,56 +54,7 @@ services:
     env_file:
       - .env
     restart: on-failure
-  redis:
-    container_name: redis
-    image: redis:inception
-    build: requirements/bonus/redis
-    volumes:
-      - /home/kseligma/data/wordpress:/var/www/wordpress
-    networks:
-      - inception
-    healthcheck:
-      test: ["CMD-SHELL", "redis_healthcheck.sh"]
-    env_file:
-      - .env
-    restart: on-failure
-  adminer:
-    container_name: adminer
-    image: adminer:inception
-    build: requirements/bonus/adminer
-    networks:
-      - inception
-    depends_on:
-      mariadb:
-        condition: service_healthy
-    restart: on-failure
-  vsftpd:
-    container_name: vsftpd
-    image: vsftpd:inception
-    build:
-      context: requirements/bonus/vsftpd
-      args:
-        PASSWORD: ${VSFTPD_USER_PASSWORD}
-    volumes:
-      - /home/kseligma/data/wordpress:/var/www/wordpress
-    networks:
-      - inception
-    ports:
-      - 21:21
-      - 40000:40000
-    env_file:
-      - .env
-    restart: on-failure
-  mailhog:
-    container_name: mailhog
-    image: mailhog:inception
-    build: requirements/bonus/mailhog
-    restart: on-failure
-    networks:
-      - inception
-    ports:
-      - 1025:1025
-
+  
 networks:
   inception:
     name: inception
