@@ -21,4 +21,3 @@ WP_TITLE=wp_title
 
 # Mariadb ROOT password
 MARIADB_ROOT_PASSWORD=mariadb_db_pass
-

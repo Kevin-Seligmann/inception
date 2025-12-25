@@ -1,16 +1,16 @@
-FROM alpine:3.19.3
+FROM alpine:3.22.2
 
 RUN \
 	apk update --no-cache \
 	&& apk upgrade --no-cache \
 	&& apk add --no-cache \
-	php \
-	php-fpm \
-	php-phar \
-	php-openssl \
-	php-mysqli \
-	php-mbstring \
-	php-tokenizer \
+	php82 \
+	php82-fpm \
+	php82-phar \
+	php82-openssl \
+	php82-mysqli \
+	php82-mbstring \
+	php82-tokenizer \
 	&& wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 	&& chmod +x wp-cli.phar \
 	&& mv wp-cli.phar /usr/local/bin \

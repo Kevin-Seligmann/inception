@@ -2,8 +2,7 @@ PROJECT_DIR = srcs
 PROJECT_DATA_ROOT = /home/kseligma/data/
 WORDPRESS_DIR = wordpress
 MARIADB_DIR = mariadb
-HTML_DIR = html
-DATA_DIR = $(PROJECT_DATA_ROOT)$(WORDPRESS_DIR) $(PROJECT_DATA_ROOT)$(MARIADB_DIR) $(PROJECT_DATA_ROOT)$(HTML_DIR)
+DATA_DIR = $(PROJECT_DATA_ROOT)$(WORDPRESS_DIR) $(PROJECT_DATA_ROOT)$(MARIADB_DIR)
 
 all: data_dir up
 
@@ -24,10 +23,10 @@ rebuild: stop
 	docker compose --project-directory $(PROJECT_DIR) up --build -d
 
 rm_container: stop
-	-docker container rm $$(sudo docker container ls -a -q)
+	-docker container rm $$(docker container ls -a -q)
 
 rm_image:
-	-docker image rm $$(sudo docker image ls -a -q)
+	-docker image rm $$(docker image ls -a -q)
 
 rm_data:
 	sudo rm -rf $(PROJECT_DATA_ROOT)*
