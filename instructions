@@ -15,3 +15,6 @@ For this set of instructions, a shared folder will be created. Intra doesn't all
 To set up a shared folder, it's necessary to install VBox Guest Additions. VBox provides a menu option to insert a .iso into the VM that can be mounted and used to install the utility (At this point, should install sudo). A folder inside the host on /sgoinfre/username and the guest on /home/username with the same name can be used.
 
 Next it's necessary to install docker and practical to add the user to a 'docker' group so it doesn't need sudo to use docker.
+
+Edit the /etc/hosts files and add:  127.0.0.1 login.42.fr login
+Edit /etc/hostname with your new hostname; run sudo hostname $(cat /etc/hostname).

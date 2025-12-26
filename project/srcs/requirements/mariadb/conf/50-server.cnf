@@ -7,6 +7,9 @@
 
 # this is only for the mysqld standalone daemon
 [mysqld]
+socket=/run/mysqld/mysqld.sock
+pid-file=/run/mysqld/mysqld.pid
+datadir=/var/lib/mysql
 
 #
 # * Basic Settings
@@ -117,4 +120,3 @@ unix_socket=OFF
 # This group is only read by MariaDB-10.11 servers.
 # If you use the same .cnf file for MariaDB of different versions,
 # use this group for options that older servers don't understand
-[mariadb-10.11]

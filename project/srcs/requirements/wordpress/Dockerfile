@@ -7,6 +7,7 @@ RUN \
 	php82 \
 	php82-fpm \
 	php82-phar \
+	php82-cli \
 	php82-openssl \
 	php82-mysqli \
 	php82-mbstring \
@@ -20,7 +21,11 @@ RUN \
 
 COPY tools/wp_entry.sh /usr/local/bin/wp_entry.sh
 COPY conf/www.conf /etc/php82/php-fpm.d/www.conf
+COPY conf/php-memory.ini /etc/php82/conf.d/99-memory.ini
+COPY conf/php.ini /etc/php82/php.ini
 
+RUN chown www-data:www-data /usr/local/bin/wp_entry.sh /etc/php82/php-fpm.d/www.conf /etc/php82/conf.d/99-memory.ini /etc/php82/php.ini \
+    && chmod +rx /usr/local/bin/wp_entry.sh /etc/php82/php-fpm.d/www.conf /etc/php82/conf.d/99-memory.ini /etc/php82/php.ini
 USER www-data
 
 ENTRYPOINT ["wp_entry.sh"]

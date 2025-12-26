@@ -1,8 +1,6 @@
-# Instructions for the administrator
+# Services provided
 
-## Services provided
-
-### MariaDB
+## MariaDB
 
 MariaDB is a relational database that holds the content of the WordPress website. It's crucial for providing persistent storage to the docker system, allowing the stored content to prevail independently of the lifetime of the MariaDB service.
 
@@ -14,7 +12,7 @@ The volume content (Database) is inside the '/home/kseligma/data on development/
 
 The oficial mariadb documentation can be found on mariadb.com/docs
 
-### Nginx
+## Nginx
 
 Nginx is a server program that provides web services. It allows the developer to configure TLS for HTTPS access. It uses fastcgi to connect with the wordpress container and serve the website.
 
@@ -24,7 +22,7 @@ Nginx also provides access to the adminer and mailhog services through their res
 
 A detailed documentation about nginx can be found on its official website nginx.org/en/docs/index.html
 
-### php-fpm (Wordpress)
+## php-fpm (Wordpress)
 
 php-fpm is a FastCGI service that works as an interface between the web server and the php interpreter. This service is the one generating or providing the actual web files to the server before leaving the container system. Therefore it's most strongly associated to the Wordpress volume.
 
@@ -36,63 +34,53 @@ Credentials can be found on the .env file inside the srcs folder.
 
 Detailed documentation about Wordpress can be found at its website wordpress.org/documentation/
 
-### Redis
-
-Redis is a in-memory database. It's a non-relational model whose adventage is being faster than relational databases, while consuming system memory. It's used to provide a cache service to the wordpress website, allowing for fast access to cached data.
-
-This service, while being optional, is useful to optizime the time expended on regular database queries and allowing for a better website experience.
-
-### Adminer
-
-Adminer is an administration panel for databases, it works as a website built in PHP and served on a configured port (/adminer.php ???). 
-
-The access credentials can be found on the .env file inside the srcs folder, those are the MariaDB user credentials.
-
-It's not recommended to access as an end-user/administrator. It's adviced to modify data through the wordpress website or contact a developer.
-
-### Vsftpd
-
-Vsftpd is a FTP deamon (Service) used to transfer or download files from the server. It's useful to transfer data to the wordpress site like images, videos, documents, etc.
-
-A FTP client is necessary to consume the service through the exposed port.
-
-Detailed information can be found on the docker-compose file or it dockerfile folder.
-
-### Mailhog
-
-LA VERDAD ES QUE NO ME ACUERDO :)
-
-## Project initialization/stopage
+# Project initialization/stopage
 
 This sections asumes the host is configured correctly and built. If that's not the case, read the DEV_DOC.md document or contact a developer.
 
-### Project initialization
+## Project initialization
 
-On the root of the project, the command 'docker compose up' or its alias 'make up' should start an stoped project.
+On the root of the project, the command 'docker compose --project-directory "/project/srcs" up -d' or its alias 'make up' should start an stoped project.
 
-### Project stopage
+## Project stopage
 
-On the root of the project, the command 'docker compose down' or its alias 'make down' should stop an ongoing project.
+On the root of the project, the command '--project-directory "/project/srcs" up stop' or its alias 'make stop' should stop an ongoing project.
 
-### Project restart
+## Project starting (After stop)
 
-On the root of the project, the command 'docker compose restart' or its alias 'make restart' should restart the project
+On the root of the project, the command 'docker compose --project-directory "/project/srcs" start' or its alias 'make start' should restart the project
 
-## Website administration
+## Project rebuild
 
-The website will be accesible through a browser via IP '127.0.0.1:443 on development/test host' or more conveniently through a hostname 'kseligma.42.fr:443 on development/test host'.
+On the root of the project, the command 'docker compose --project-directory "/project/srcs" up --build -d' or its alias 'make rebuild' should restart the project
 
-Login in with the administrator account (See Credentials administration) provides access to the admin panel at /admin ????????/
+# Website administration
 
-Login in with the mariadb credentials, it's possible to access the adminer panel at /adminer.php???. It's recommended to use the help of a developer if any change is necessary through this method.
+The website will be accesible through a browser via 'https://127.0.0.1:443 on development/test host' or more conveniently through a hostname 'https://login.42.fr:443 on development/test host'.
 
-## Credentials administration
+Login in with the administrator account (See Credentials administration) provides access to the admin panel at /wp-admin.php
+
+# Credentials administration
 
 Inside the 'srcs' folder on the root of the project, a file .env can be modified to set the credentials. To make sure to apply the changes, the project might need to be rebuilt.
 
-- Credential 1 ...
-- Credential 2 ...
+WP_USER_USERNAME=...
 
-## Service administration
+WP_USER_PASSWORD=...
 
-CREO QUE ES 'DOCKER COMPOSE LS', PERO TESTEAR INSTALADO
+WP_USER_EMAIL=...
+
+WP_ADMIN_USERNAME=...
+
+WP_ADMIN_PASSWORD=...
+
+WP_ADMIN_EMAIL=...
+
+WP_URL=...
+
+WP_TITLE=...
+
+# Service administration
+
+You can check the services are running correctly with the command 'docker compose ls'. It will list the service and you must identify the services of this application. The list of services should say that each service is 'running' or 'healthy'.
+

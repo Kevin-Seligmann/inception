@@ -4,11 +4,7 @@ WORDPRESS_DIR = wordpress
 MARIADB_DIR = mariadb
 DATA_DIR = $(PROJECT_DATA_ROOT)$(WORDPRESS_DIR) $(PROJECT_DATA_ROOT)$(MARIADB_DIR)
 
-all: data_dir up
-
-data_dir:
-	mkdir -p $(DATA_DIR)
-	sudo chown 1001:1001 $(DATA_DIR)
+all: up
 
 start:
 	docker compose --project-directory $(PROJECT_DIR) start
@@ -21,6 +17,12 @@ up:
 
 rebuild: stop
 	docker compose --project-directory $(PROJECT_DIR) up --build -d
+
+## Dev Commands
+dir:
+	mkdir -p $(DATA_DIR)
+	sudo chown 1001:1001 $(DATA_DIR)
+
 
 rm_container: stop
 	-docker container rm $$(docker container ls -a -q)

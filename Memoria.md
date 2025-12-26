@@ -13,7 +13,6 @@ Configuration requirements
 - NGINX should be the only entrypoint to the network via port 443 and TLS
 - Credentials should be git ignored
 
-
 Services
 - NGINX 
     - TLSv1.2 or TLSv1.3

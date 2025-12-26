@@ -1,24 +1,35 @@
 #!/bin/sh
 
+SOCKET_FILE="/run/mysqld/mysqld.sock"
 args="-u root -p${MARIADB_ROOT_PASSWORD} -e"
+i=25
 
 # Install (Would do nothing if installed)
-mariadb-install-db --datadir="/var/lib/mysql" --auth-root-authentication-method=normal --skip-test-db --verbose	
+mariadb-install-db --user=mysql --datadir="/var/lib/mysql" --auth-root-authentication-method=normal --skip-test-db --verbose	
 
 # Mariadb auxiliary process to execute initalization script
 mariadbd & MARIADB_PID=$!
 
 # Checking until it has started, or leave.
-for i in {25..0}; do
-	if mariadb $args "SELECT '1';" &> /dev/null; then
-		echo 'mariadb init started'
-		break
-	fi
-	if mariadb -u root -e "SELECT '1';" &> /dev/null; then
-		echo 'mariadb init started'
-		break
-	fi
-	sleep 1
+while [ $i -gt 0 ]; do
+    if [ -S "$SOCKET_FILE" ]; then
+        echo "Socket file exists: $SOCKET_FILE"
+        ls -l "$SOCKET_FILE"
+
+        if mariadb $args "SELECT '1';" > /dev/null 2>&1; then
+            echo "MariaDB init started"
+            break
+        fi
+        if mariadb -u root -e "SELECT '1';" > /dev/null 2>&1; then
+            echo "MariaDB init started"
+            break
+        fi
+    else
+        echo "Socket file not yet created: $SOCKET_FILE"
+    fi
+
+    sleep 1
+    i=$((i - 1))
 done
 
 if [ "$i" = 0 ]; then
@@ -26,18 +37,18 @@ if [ "$i" = 0 ]; then
 	exit 1
 fi
 
-mariadb -u root -e "SET PASSWORD FOR 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('${MARIADB_ROOT_PASSWORD}'); FLUSH PRIVILEGES;"
+mariadb -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('${MARIADB_ROOT_PASSWORD}'); FLUSH PRIVILEGES;"
 echo "0. Setting root password " $? 
 
 # Changing root password after installation (Would do nothing if installed)
-mariadb $args "SET PASSWORD FOR 'root'@'127.0.0.1' IDENTIFIED VIA mysql_native_password USING PASSWORD('${MARIADB_ROOT_PASSWORD}');"
+mariadb $args "SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('${MARIADB_ROOT_PASSWORD}');"
 echo "1. Setting root password " $? 
 
-mariadb $args "SET PASSWORD FOR 'root'@'::1' IDENTIFIED VIA mysql_native_password USING PASSWORD('${MARIADB_ROOT_PASSWORD}');"
+mariadb $args "SET PASSWORD FOR 'root'@'::1' = PASSWORD('${MARIADB_ROOT_PASSWORD}');"
 echo "2. Setting root password " $? 
 
 # An user like 'root'@hostname is created
-mariadb $args "SET PASSWORD FOR 'root'@'${HOSTNAME}' IDENTIFIED VIA mysql_native_password USING PASSWORD('${MARIADB_ROOT_PASSWORD}');"
+mariadb $args "SET PASSWORD FOR 'root'@'${HOSTNAME}' = PASSWORD('${MARIADB_ROOT_PASSWORD}');"
 echo "3. Setting root password " $? " " ${HOSTNAME} 
 
 mariadb $args "FLUSH PRIVILEGES;"
